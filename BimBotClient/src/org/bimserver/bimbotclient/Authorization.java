@@ -14,7 +14,7 @@ public class Authorization {
 	private String code;
 	private String address;
 	private String soid;
-	private String serviceaddress;
+	private String serviceAddress;
 
 	public static Authorization parseUri(String redirectUri) throws URISyntaxException {
 		List<NameValuePair> parse = URLEncodedUtils.parse(new URI(redirectUri), Charsets.UTF_8);
@@ -27,7 +27,7 @@ public class Authorization {
 			} else if (nvp.getName().equals("soid")) {
 				authorization.soid = nvp.getValue();
 			} else if (nvp.getName().equals("serviceaddress")) {
-				authorization.serviceaddress = nvp.getValue();
+				authorization.serviceAddress = nvp.getValue();
 			}
 		}
 		return authorization;
@@ -41,8 +41,8 @@ public class Authorization {
 		return code;
 	}
 
-	public String getServiceaddress() {
-		return serviceaddress;
+	public String getServiceAddress() {
+		return serviceAddress;
 	}
 
 	public String getSoid() {

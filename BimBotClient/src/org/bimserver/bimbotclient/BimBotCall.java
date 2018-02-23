@@ -18,27 +18,22 @@ public class BimBotCall {
 	private String inputType;
 	private String outputType;
 	private ByteSource inputData;
-	private Authorization authorization;
 	private byte[] outputData;
-	private Service service;
 	private String dataTitle;
 	private String contentType;
+	private AccessToken accessToken;
 
-	public BimBotCall(Service service, String inputType, String outputType, ByteSource inputData) {
-		this.service = service;
+	public BimBotCall(String inputType, String outputType, ByteSource inputData, AccessToken accessToken) {
 		this.inputType = inputType;
 		this.outputType = outputType;
 		this.inputData = inputData;
+		this.accessToken = accessToken;
 	}
 
 	protected void execute(CloseableHttpClient httpclient) throws BimBotExecutionException {
-		if (authorization == null) {
-			throw new BimBotExecutionException("Authorization required in this client implementation");
-		}
-		String fullUrl = authorization.getServiceaddress() + "/" + authorization.getSoid();
-		LOGGER.info(fullUrl);
-		HttpPost post = new HttpPost(fullUrl);
-		post.setHeader("Authorization", "Bearer " + authorization.getCode());
+		LOGGER.info(accessToken.getResourceUrl());
+		HttpPost post = new HttpPost(accessToken.getResourceUrl());
+		post.setHeader("Authorization", "Bearer " + accessToken.getToken());
 		post.setHeader("Input-Type", inputType);
 		try {
 			post.setEntity(new InputStreamEntity(inputData.openBufferedStream()));
@@ -58,10 +53,6 @@ public class BimBotCall {
 		}
 	}
 
-	public void setAuthorization(Authorization authorization) {
-		this.authorization = authorization;
-	}
-	
 	public byte[] getOutputData() {
 		return outputData;
 	}

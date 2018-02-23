@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Scanner;
 
+import org.bimserver.bimbotclient.AccessToken;
 import org.bimserver.bimbotclient.Application;
 import org.bimserver.bimbotclient.Authorization;
 import org.bimserver.bimbotclient.BimBotCall;
@@ -42,8 +43,8 @@ public class TestBimBotClient {
 			
 			try {
 				Authorization authorization = Authorization.parseUri(redirectUri);
-				BimBotCall bimBotCall = new BimBotCall(service, "IFC_STEP_2X3TC1", "UNSTRUCTURED_UTF8_TEXT_1_0", Resources.asByteSource(new URL("https://github.com/opensourceBIM/TestFiles/raw/master/TestData/data/AC11-Institute-Var-2-IFC.ifc")));
-				bimBotCall.setAuthorization(authorization);
+				AccessToken accessToken = bimBotClient.acquireAccessToken(service, authorization, ourApplication);
+				BimBotCall bimBotCall = new BimBotCall("IFC_STEP_2X3TC1", "UNSTRUCTURED_UTF8_TEXT_1_0", Resources.asByteSource(new URL("https://github.com/opensourceBIM/TestFiles/raw/master/TestData/data/AC11-Institute-Var-2-IFC.ifc")), accessToken);
 				bimBotClient.execute(bimBotCall);
 				System.out.println(new String(bimBotCall.getOutputData(), Charsets.UTF_8));
 			} catch (BimBotExecutionException e) {
