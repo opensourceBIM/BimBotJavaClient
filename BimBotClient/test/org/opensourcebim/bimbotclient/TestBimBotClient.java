@@ -35,7 +35,7 @@ public class TestBimBotClient {
 			experimentalServer.registerApplication(service.getRegisterUrl(), ourApplication);
 
 			System.out.println("Navigate to " + service.constructAuthorizationUrl(ourApplication));
-			System.out.print("Enter received code: ");
+			System.out.print("Enter received redirect url: ");
 			Scanner scanner = new Scanner(System.in);
 			String redirectUri = scanner.nextLine();
 			scanner.close();
